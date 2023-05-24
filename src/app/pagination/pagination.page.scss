@@ -1,0 +1,151 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;700&display=swap");
+@font-face {
+  font-family: BPG Mrgvlovani 2010;
+  src: url("../../assets/fonts/bpg_mrgvlovani_2010.ttf");
+}
+
+.main_wrapper {
+  display: flex;
+  height: 100%;
+}
+
+.wrapper {
+  background-color: #7266d8;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  .title_wrapper {
+    font-family: "Noto Sans Georgian", sans-serif;
+    line-height: 0;
+    h1 {
+      font-size: 40px;
+      line-height: 5px;
+    }
+    h2 {
+      font-size: 30px;
+    }
+    .settings_icon {
+      position: absolute;
+      top: 5%;
+      right: 5%;
+    }
+  }
+  .menu_wrapper {
+    display: flex;
+    list-style: none;
+    border: 2px solid #000000;
+    border-radius: 8px;
+    justify-content: center;
+    width: 95%;
+    margin: 0 auto;
+
+    .menu_div {
+      width: 100%;
+      font-family: BPG Mrgvlovani 2010;
+      font-weight: 400;
+      font-size: 19px;
+      cursor: pointer;
+      padding: 1% 5% 3% 5%;
+      background-color: rgba(123, 123, 123, 0.43);
+    }
+    .menu1,
+    .menu2 {
+      border-right: 1px solid rgba(243, 243, 243, 0.5);
+    }
+    .active {
+      background-color: #7266d8;
+    }
+  }
+  .button_wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40%;
+    button {
+      padding: 5% 25%;
+      font-size: 31px;
+      margin: 2% 0;
+      border-radius: 8px;
+    }
+    .start_btn {
+      background-color: #2cbf14;
+    }
+    .stop_btn {
+      background-color: #f31f52;
+    }
+  }
+  .choice_submit {
+    display: block;
+    margin: 25% auto;
+  }
+  .card_wrapper {
+    border: 2px solid black;
+    padding: 0 30% 10% 2%;
+    background-color: white;
+    color: black;
+    width: 90%;
+    margin: 0 auto;
+    font-family: "Noto Sans Georgian", sans-serif;
+    margin-top: 10%;
+    border-radius: 5px;
+
+    .card_title {
+      margin-left: 5%;
+      font-size: 29px;
+    }
+    .card_title::after {
+      content: "";
+      width: 100%;
+      height: 1px;
+      background-color: #858586;
+      display: block;
+    }
+    .location {
+      font-size: 20px;
+      margin-left: 5%;
+    }
+    .date_wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      margin-left: 20%;
+      margin-top: 5%;
+
+      .card_date {
+        margin: 0 20px;
+      }
+      .date_text {
+        padding-left: 15%;
+      }
+      .confirmation_text {
+        padding-left: 15%;
+      }
+      .date {
+        display: flex;
+        align-items: center;
+      }
+      .date_time {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        font-size: 17px;
+        white-space: nowrap;
+      }
+      .confirmation {
+        display: flex;
+        align-items: center;
+      }
+    }
+    .location_card {
+      display: flex;
+      align-items: center;
+      margin-left: 2%;
+      margin-top: 5%;
+      .location_text {
+        margin-left: 5%;
+      }
+    }
+  }
+}

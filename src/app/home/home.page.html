@@ -1,0 +1,16 @@
+<div class="wrapper">
+  <div class="subwrapper">
+    <h1 class="title">ავტორიზება</h1>
+    <form class="auth">
+      <div class="form_div">
+        <label for="user" class="form_title">მომხმარებელი</label>
+        <input type="text" class="form_input" placeholder="პირადი ნომერი" [(ngModel)]="user" name="user" />
+      </div>
+      <div class="form_div">
+        <label for="password" class="form_title">პაროლი</label>
+        <input type="password" class="form_input" [(ngModel)]="password" name="password"/>
+      </div>
+      <button class="submit" (click)="submitForm()">Login</button>
+    </form>
+  </div>
+</div>
