@@ -86,9 +86,7 @@ export class PaginationPage implements OnInit {
         this.latitude = position.coords.latitude;
         this.longitude = position.coords.longitude;
         console.log(this.latitude, this.longitude);
-        this.url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.latitude},${this.longitude}
-      &location_type=ROOFTOP&result_type=street_address&key=${this.api_key}
-      `;
+        this.url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.latitude},${this.longitude}&key=${this.api_key}`;
 
         this.getFullAddress(this.url).subscribe((res) => {
           // this.location = res.results[0].formatted_address;
