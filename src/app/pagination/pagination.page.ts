@@ -16,8 +16,8 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 })
 export class PaginationPage implements OnInit {
   api_key: string = 'AIzaSyDHSxnbaGQzITfhphIkZpxAnhgMZY-ziZo';
-  desiredLatitude: number = 41.71546;
-  desiredLongitude: number = 44.7767;
+  desiredLatitude: number = 41.7155;
+  desiredLongitude: number = 44.7765;
   city: string;
   choiceMade = false;
   currentTime: string;
@@ -71,6 +71,7 @@ export class PaginationPage implements OnInit {
   getLocation() {
     const options = {
       enableHighAccuracy: true,
+      timeout: 5000,
       maximumAge: 0,
     };
     // this.geolocation.getCurrentPosition((position: any) => {
