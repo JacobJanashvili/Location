@@ -22,10 +22,14 @@
     }
     .form_div {
       margin: 20px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
     }
     .form_title {
       font-family: "Noto Sans Georgian", sans-serif;
-      font-weight: 700;
+      font-weight: 500px;
       font-size: 20px;
       margin-bottom: 10px;
       display: inline-block;

@@ -39,8 +39,8 @@ export class PaginationPage implements OnInit {
   latitude: number;
   longitude: number;
   location: any = '';
-  startLocationValid = this.location ? true : false;
-  stopLocationValid = this.location ? true : false;
+  startLocationValid: boolean;
+  stopLocationValid: boolean;
   url: any;
   filteredStartDay: any = [];
   filteredStartMonth: any = [];
@@ -97,18 +97,24 @@ export class PaginationPage implements OnInit {
           this.city = res.results[0].address_components[5].long_name;
           console.log(this.location, this.city);
           if (
-            // this.latitude === this.desiredLatitude &&
-            // this.longitude === this.desiredLongitude &&
+            this.latitude === this.desiredLatitude &&
+            this.longitude === this.desiredLongitude &&
+            this.location !== '' &&
             this.startClicked
           ) {
             this.startLocationValid = true;
+          } else {
+            this.startLocationValid = false;
           }
           if (
-            // this.latitude === this.desiredLatitude &&
-            // this.longitude === this.desiredLongitude &&
+            this.latitude === this.desiredLatitude &&
+            this.longitude === this.desiredLongitude &&
+            this.location !== '' &&
             this.stopClicked
           ) {
             this.stopLocationValid = true;
+          } else {
+            this.stopLocationValid = false;
           }
         });
       },
