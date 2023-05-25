@@ -29,8 +29,7 @@ export class PaginationPage implements OnInit {
   start_success_text: string;
   stop_error_text: string;
   stop_success_text: string;
-  startLocationValid = false;
-  stopLocationValid = false;
+
   startCardArr: any = [];
   stopCardArr: any = [];
   selectedItem = '';
@@ -39,7 +38,9 @@ export class PaginationPage implements OnInit {
   isActive = false;
   latitude: number;
   longitude: number;
-  location: any;
+  location: any = '';
+  startLocationValid = this.location ? true : false;
+  stopLocationValid = this.location ? true : false;
   url: any;
   filteredStartDay: any = [];
   filteredStartMonth: any = [];
