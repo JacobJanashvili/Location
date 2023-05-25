@@ -16,8 +16,9 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 })
 export class PaginationPage implements OnInit {
   api_key: string = 'AIzaSyDHSxnbaGQzITfhphIkZpxAnhgMZY-ziZo';
-  desiredLatitude: number = 41.7155;
-  desiredLongitude: number = 44.7765;
+  // desiredLatitude: number = 41.7154191;
+  // desiredLongitude: number = 44.7766157;
+  desiredLocation = "9/11 Simon Chikovani St, T'bilisi";
   city: string;
   choiceMade = false;
   currentTime: string;
@@ -97,22 +98,12 @@ export class PaginationPage implements OnInit {
           this.location = res.results[0].formatted_address;
           this.city = res.results[0].address_components[5].long_name;
           console.log(this.location, this.city);
-          if (
-            this.latitude === this.desiredLatitude &&
-            this.longitude === this.desiredLongitude &&
-            this.location !== '' &&
-            this.startClicked
-          ) {
+          if (this.location == this.desiredLocation) {
             this.startLocationValid = true;
           } else {
             this.startLocationValid = false;
           }
-          if (
-            this.latitude === this.desiredLatitude &&
-            this.longitude === this.desiredLongitude &&
-            this.location !== '' &&
-            this.stopClicked
-          ) {
+          if (this.location == this.desiredLocation) {
             this.stopLocationValid = true;
           } else {
             this.stopLocationValid = false;
