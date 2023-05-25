@@ -96,15 +96,15 @@ export class PaginationPage implements OnInit {
           this.city = res.results[0].address_components[5].long_name;
           console.log(this.location, this.city);
           if (
-            this.latitude === this.desiredLatitude &&
-            this.longitude === this.desiredLongitude &&
+            // this.latitude === this.desiredLatitude &&
+            // this.longitude === this.desiredLongitude &&
             this.startClicked
           ) {
             this.startLocationValid = true;
           }
           if (
-            this.latitude === this.desiredLatitude &&
-            this.longitude === this.desiredLongitude &&
+            // this.latitude === this.desiredLatitude &&
+            // this.longitude === this.desiredLongitude &&
             this.stopClicked
           ) {
             this.stopLocationValid = true;
