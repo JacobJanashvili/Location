@@ -8,6 +8,8 @@ import {
   timeout,
 } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { resolve } from 'dns';
+import { rejects } from 'assert';
 
 @Component({
   selector: 'app-pagination',
@@ -16,9 +18,9 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 })
 export class PaginationPage implements OnInit {
   api_key: string = 'AIzaSyDHSxnbaGQzITfhphIkZpxAnhgMZY-ziZo';
-  // desiredLatitude: number = 41.7154191;
-  // desiredLongitude: number = 44.7766157;
-  desiredLocation = "9/11 Simon Chikovani St, T'bilisi";
+  desiredLatitude: number = 41.7154191;
+  desiredLongitude: number = 44.7766157;
+  // desiredLocation = "9/11 Simon Chikovani St, T'bilisi";
   city: string;
   choiceMade = false;
   currentTime: string;
@@ -30,18 +32,17 @@ export class PaginationPage implements OnInit {
   start_success_text: string;
   stop_error_text: string;
   stop_success_text: string;
-
   startCardArr: any = [];
   stopCardArr: any = [];
   selectedItem = '';
   startClicked = false;
   stopClicked = false;
   isActive = false;
-  latitude: number;
-  longitude: number;
+  latitude: number = this.desiredLatitude;
+  longitude: number = this.desiredLongitude;
   location: any = '';
-  startLocationValid: boolean;
-  stopLocationValid: boolean;
+  startLocationValid: boolean = false;
+  stopLocationValid: boolean = false;
   url: any;
   filteredStartDay: any = [];
   filteredStartMonth: any = [];
@@ -69,56 +70,55 @@ export class PaginationPage implements OnInit {
     console.warn(`ERROR(${err.code}): ${err.message}`);
   }
 
-  getLocation() {
-    const options = {
-      enableHighAccuracy: true,
-      timeout: 5000,
-      maximumAge: 0,
-    };
-    // this.geolocation.getCurrentPosition((position: any) => {
-    //   this.latitude = position.coords.latitude;
-    //   this.longitude = position.coords.longitude;
-    //   console.log(position);
-    // });
-    // this.geolocation.getCurrentPosition(options).then((position) => {
-    //   this.latitude = position.coords.latitude;
-    //   this.longitude = position.coords.longitude;
-    //   console.log(this.latitude, this.longitude);
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        this.latitude = position.coords.latitude;
-        this.longitude = position.coords.longitude;
-        console.log(this.latitude, this.longitude);
-        this.url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.latitude},${this.longitude}&key=${this.api_key}`;
+  getLocation(): Promise<any> {
+    return new Promise((resolve, rejects) => {
+      const options = {
+        enableHighAccuracy: true,
+        maximumAge: 0,
+      };
+      // this.geolocation.getCurrentPosition((position: any) => {
+      //   this.latitude = position.coords.latitude;
+      //   this.longitude = position.coords.longitude;
+      //   console.log(position);
+      // });
+      // this.geolocation.getCurrentPosition(options).then((position) => {
+      //   this.latitude = position.coords.latitude;
+      //   this.longitude = position.coords.longitude;
+      //   console.log(this.latitude, this.longitude);
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          // this.latitude = position.coords.latitude;
+          // this.longitude = position.coords.longitude;
+          console.log(this.latitude, this.longitude);
+          this.url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.latitude},${this.longitude}&key=${this.api_key}`;
 
-        this.getFullAddress(this.url).subscribe((res) => {
-          // this.location = res.results[0].formatted_address;
-          // this.city = res.results[9].formatted_address;
-          console.log(res);
-          this.location = res.results[0].formatted_address;
-          this.city = res.results[0].address_components[5].long_name;
-          console.log(this.location, this.city);
-          if (this.location == this.desiredLocation) {
-            this.startLocationValid = true;
-          } else {
-            this.startLocationValid = false;
-          }
-          if (this.location == this.desiredLocation) {
-            this.stopLocationValid = true;
-          } else {
-            this.stopLocationValid = false;
-          }
-        });
-      },
-      this.error,
-      options
-    );
-    // this.geocoder
-    //   .reverseGeocode(this.latitude, this.longitude)
-    //   .then((result: NativeGeocoderResult[]) =>
-    //     console.log(JSON.stringify(result))
-    //   )
-    //   .catch((error: any) => console.log(error));
+          this.getFullAddress(this.url).subscribe((res) => {
+            // this.location = res.results[0].formatted_address;
+            // this.city = res.results[9].formatted_address;
+            console.log(res);
+            this.location = res.results[0].formatted_address;
+            this.city = res.results[0].address_components[5].long_name;
+            console.log(this.location, this.city);
+            if (
+              this.latitude == this.desiredLatitude &&
+              this.longitude == this.desiredLongitude
+            ) {
+              if (this.startClicked) {
+                this.startLocationValid = true;
+              }
+              if (this.stopClicked) {
+                this.stopLocationValid = true;
+              }
+            } else {
+              this.startLocationValid = false;
+              this.stopLocationValid = false;
+            }
+          });
+        },
+        this.error,
+        options
+      );
+    });
   }
 
   getCurrentDay() {
@@ -160,33 +160,16 @@ export class PaginationPage implements OnInit {
     return currentDate.getFullYear();
   }
 
-  startBtnClicked() {
+  async startBtnClicked(): Promise<void> {
     this.startClicked = true;
     this.stopClicked = false;
+    this.setCurrentTime();
+    this.setCurrentDate();
     this.currentDay = this.getCurrentDay();
     this.currentMonth = this.getCurrentMonth();
     this.currentYear = this.getCurrentYear();
     this.getLocation();
-
-    // if (
-    //   this.latitude &&
-    //   this.longitude == this.desiredLatitude &&
-    //   this.desiredLongitude
-    // ) {
-    //   this.start_success_text = 'successfully added';
-
-    //   this.startCardArr.push({
-    //     location: this.location,
-    //     city: this.city,
-    //     date: this.currentDate,
-    //     time: this.currentTime,
-    //   });
-    // } else {
-    //   this.start_error_text = 'locations dont match';
-    // }
-    this.setCurrentTime();
-    this.setCurrentDate();
-
+    console.log(this.startLocationValid);
     if (this.startLocationValid == true) {
       this.start_success_text = 'successfully added';
       this.startCardArr.push({
@@ -211,7 +194,7 @@ export class PaginationPage implements OnInit {
     this.setCurrentTime();
     this.setCurrentDate();
     this.getLocation();
-    if (this.stopLocationValid == true) {
+    if (this.stopLocationValid === true) {
       this.stop_success_text = 'successfully added';
       this.stopCardArr.push({
         location: this.location,

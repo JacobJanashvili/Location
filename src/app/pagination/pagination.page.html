@@ -13,6 +13,7 @@
       >
         Start
       </button>
+
       <div [ngSwitch]="startLocationValid">
         <p *ngSwitchCase="true">{{start_success_text}}</p>
         <p *ngSwitchCase="false">{{start_error_text}}</p>
