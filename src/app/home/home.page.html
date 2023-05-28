@@ -1,16 +1,38 @@
-<div class="wrapper">
-  <div class="subwrapper">
-    <h1 class="title">ავტორიზება</h1>
-    <form class="auth">
-      <div class="form_div">
-        <label for="user" class="form_title">მომხმარებელი</label>
-        <input type="text" class="form_input" placeholder="პირადი ნომერი" [(ngModel)]="user" name="user" />
+<ion-content>
+  <ion-card>
+    <ion-card-content>
+      <div class="wrapper">
+        <div class="subwrapper">
+          <ion-card-header>
+            <ion-card-title class="title">ავტორიზება</ion-card-title>
+          </ion-card-header>
+          <h1></h1>
+          <form class="auth">
+            <ion-item>
+              <ion-label for="user" position="floating">მომხმარებელი</ion-label>
+              <ion-input
+                type="text"
+                placeholder="პირადი ნომერი"
+                [(ngModel)]="user"
+                name="user"
+              >
+              </ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label for="password" position="floating">პაროლი</ion-label>
+              <ion-input
+                type="password"
+                [(ngModel)]="password"
+                name="password"
+                
+              ></ion-input>
+            </ion-item>
+            <ion-button fill="clear" size="full" (click)="submitForm()"
+              >Login</ion-button
+            >
+          </form>
+        </div>
       </div>
-      <div class="form_div">
-        <label for="password" class="form_title">პაროლი</label>
-        <input type="password" class="form_input" [(ngModel)]="password" name="password"/>
-      </div>
-      <button class="submit" (click)="submitForm()">Login</button>
-    </form>
-  </div>
-</div>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

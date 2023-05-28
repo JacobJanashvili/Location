@@ -4,11 +4,9 @@
   src: url("../../assets/fonts/bpg_mrgvlovani_2010.ttf");
 }
 
-.main_wrapper {
-  display: flex;
-  height: 100%;
+ion-card-header{
+  padding: 10%;
 }
-
 .wrapper {
   background-color: #7266d8;
   width: 100%;
@@ -24,11 +22,11 @@
     h2 {
       font-size: 30px;
     }
-    .settings_icon {
-      position: absolute;
-      top: 5%;
-      right: 5%;
-    }
+  }
+  .settings_icon {
+    position: absolute;
+    top: 40%;
+    right: 5%;
   }
   .menu_wrapper {
     display: flex;

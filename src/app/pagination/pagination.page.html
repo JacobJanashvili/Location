@@ -1,294 +1,328 @@
-<ion-content [fullscreen]="true" class="no-margin">
-  <div class="wrapper" *ngIf="choiceMade==false">
-    <div class="title_wrapper">
-      <h1>საცდელი</h1>
-      <h2>სახელი და გვარი</h2>
-      <img src="assets/settings.svg" class="settings_icon" alt="" />
-    </div>
-    <div class="button_wrapper">
-      <button
-        class="start_btn"
-        (click)="startBtnClicked()"
-        [disabled]="startClicked==true&&stopClicked==false"
-      >
-        Start
-      </button>
+<ion-content>
+  <ion-card>
+    <div class="wrapper" *ngIf="choiceMade==false">
+      <!-- <div class="title_wrapper">
+          <h1>საცდელი</h1>
+          <h2>სახელი და გვარი</h2>
+          <img src="assets/settings.svg" class="settings_icon" alt="" />
+        </div> -->
+      <ion-card-header>
+        <img src="assets/settings.svg" class="settings_icon" alt="" />
 
-      <div [ngSwitch]="startLocationValid">
-        <p *ngSwitchCase="true">{{start_success_text}}</p>
-        <p *ngSwitchCase="false">{{start_error_text}}</p>
-      </div>
+        <ion-card-title>საცდელი</ion-card-title>
+        <ion-card-subtitle>სახელი და გვარი</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="button_wrapper">
+          <button
+            class="start_btn"
+            (click)="startBtnClicked()"
+            [disabled]="startClicked==true&&stopClicked==false"
+          >
+            Start
+          </button>
 
-      <button
-        class="stop_btn"
-        (click)="stopBtnClicked()"
-        [disabled]="startClicked==false || location==''"
-      >
-        Stop
-      </button>
-      <div [ngSwitch]="stopLocationValid">
-        <p *ngSwitchCase="true">{{stop_success_text}}</p>
-        <p *ngSwitchCase="false">{{stop_error_text}}</p>
-      </div>
-    </div>
-    <img
-      src="assets/icons/exit-outline.svg"
-      class="choice_submit"
-      alt=""
-      (click)="choiceCheck()"
-    />
-  </div>
-  <div
-    class="wrapper"
-    *ngIf="choiceMade==true"
-    [ngStyle]="{'border':choiceMade? '2px solid black' : null}"
-  >
-    <div class="title_wrapper">
-      <h1>საცდელი</h1>
-      <h2>სახელი და გვარი</h2>
-      <img src="assets/settings.svg" class="settings_icon" alt="" />
-    </div>
-    <ul class="menu_wrapper">
-      <div
-        class="menu_div menu1"
-        [ngClass]="{'active':selectedItem==='item1'}"
-        (click)="selectedItem='item1'"
-        (click)="dayClicked()"
-      >
-        <li>დღე</li>
-      </div>
-      <div
-        class="menu_div menu2"
-        [ngClass]="{'active':selectedItem==='item2'}"
-        (click)="selectedItem='item2'"
-        (click)="monthClicked()"
-      >
-        <li>თვე</li>
-      </div>
+          <div [ngSwitch]="startLocationValid">
+            <p *ngSwitchCase="true">{{start_success_text}}</p>
+            <p *ngSwitchCase="false">{{start_error_text}}</p>
+          </div>
 
+          <button
+            class="stop_btn"
+            (click)="stopBtnClicked()"
+            [disabled]="startClicked==false || location==''"
+          >
+            Stop
+          </button>
+          <div [ngSwitch]="stopLocationValid">
+            <p *ngSwitchCase="true">{{stop_success_text}}</p>
+            <p *ngSwitchCase="false">{{stop_error_text}}</p>
+          </div>
+        </div>
+        <img
+          src="assets/icons/exit-outline.svg"
+          class="choice_submit"
+          alt=""
+          (click)="choiceCheck()"
+        />
+      </ion-card-content>
+    </div>
+  </ion-card>
+</ion-content>
+<ion-content>
+  <ion-card>
+    <ion-card-content>
       <div
-        class="menu_div menu3"
-        [ngClass]="{'active':selectedItem==='item3'}"
-        (click)="selectedItem='item3'"
-        (click)="yearClicked()"
+        class="wrapper"
+        *ngIf="choiceMade==true"
+        [ngStyle]="{'border':choiceMade? '2px solid black' : null}"
       >
-        <li>წელი</li>
-      </div>
-    </ul>
-    <ng-container
-      *ngIf="(menuDayClicked==false&&menuMonthClicked==false)&&menuYearClicked==false"
-    >
-      <div class="card_wrapper start_card" *ngFor="let item of startCardArr">
-        <h1 class="card_title">Start</h1>
-        <h3 class="location">მისამართი: {{item.city}}</h3>
-        <div class="location_wrapper">
-          <div class="date_wrapper">
-            <div class="date card_date">
-              <img class="date_logo" src="assets/calendar.svg" alt="" />
-              <p class="date_text">{{item.date}}</p>
-            </div>
-            <div class="date_time card_date">
-              <img src="assets/clock.svg" alt="" />
-              <p class="date_text">{{item.time}}</p>
-            </div>
-            <div class="confirmation card_date">
-              <img src="assets/green-dot.svg" alt="" />
-              <p class="confirmation_text">Confirmada</p>
-            </div>
-          </div>
-          <div class="location_card">
-            <img src="assets/map.svg" alt="" />
-            <p class="location_text">{{item.location}}</p>
-          </div>
+        <div class="title_wrapper">
+          <h1>საცდელი</h1>
+          <h2>სახელი და გვარი</h2>
+          <img src="assets/settings.svg" class="settings_icon" alt="" />
         </div>
+        <ul class="menu_wrapper">
+          <div
+            class="menu_div menu1"
+            [ngClass]="{'active':selectedItem==='item1'}"
+            (click)="selectedItem='item1'"
+            (click)="dayClicked()"
+          >
+            <li>დღე</li>
+          </div>
+          <div
+            class="menu_div menu2"
+            [ngClass]="{'active':selectedItem==='item2'}"
+            (click)="selectedItem='item2'"
+            (click)="monthClicked()"
+          >
+            <li>თვე</li>
+          </div>
+
+          <div
+            class="menu_div menu3"
+            [ngClass]="{'active':selectedItem==='item3'}"
+            (click)="selectedItem='item3'"
+            (click)="yearClicked()"
+          >
+            <li>წელი</li>
+          </div>
+        </ul>
+        <ng-container
+          *ngIf="(menuDayClicked==false&&menuMonthClicked==false)&&menuYearClicked==false"
+        >
+          <div
+            class="card_wrapper start_card"
+            *ngFor="let item of startCardArr"
+          >
+            <h1 class="card_title">Start</h1>
+            <h3 class="location">მისამართი: {{item.city}}</h3>
+            <div class="location_wrapper">
+              <div class="date_wrapper">
+                <div class="date card_date">
+                  <img class="date_logo" src="assets/calendar.svg" alt="" />
+                  <p class="date_text">{{item.date}}</p>
+                </div>
+                <div class="date_time card_date">
+                  <img src="assets/clock.svg" alt="" />
+                  <p class="date_text">{{item.time}}</p>
+                </div>
+                <div class="confirmation card_date">
+                  <img src="assets/green-dot.svg" alt="" />
+                  <p class="confirmation_text">Confirmada</p>
+                </div>
+              </div>
+              <div class="location_card">
+                <img src="assets/map.svg" alt="" />
+                <p class="location_text">{{item.location}}</p>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="menuDayClicked==true">
+          <div
+            class="card_wrapper start_card"
+            *ngFor="let item of filteredStartDay"
+          >
+            <h1 class="card_title">Start</h1>
+            <h3 class="location">მისამართი: {{item.city}}</h3>
+            <div class="location_wrapper">
+              <div class="date_wrapper">
+                <div class="date card_date">
+                  <img class="date_logo" src="assets/calendar.svg" alt="" />
+                  <p class="date_text">{{item.date}}</p>
+                </div>
+                <div class="date_time card_date">
+                  <img src="assets/clock.svg" alt="" />
+                  <p class="date_text">{{item.time}}</p>
+                </div>
+                <div class="confirmation card_date">
+                  <img src="assets/green-dot.svg" alt="" />
+                  <p class="confirmation_text">Confirmada</p>
+                </div>
+              </div>
+              <div class="location_card">
+                <img src="assets/map.svg" alt="" />
+                <p class="location_text">{{item.location}}</p>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+        <ng-container
+          *ngIf="(menuDayClicked==false&&menuMonthClicked==false)&&menuYearClicked==false"
+        >
+          <div class="card_wrapper stop_card" *ngFor="let item of stopCardArr">
+            <h1 class="card_title">Stop</h1>
+            <h3 class="location">მისამართი: {{item.city}}</h3>
+            <div class="location_wrapper">
+              <div class="date_wrapper">
+                <div class="date card_date">
+                  <img class="date_logo" src="assets/calendar.svg" alt="" />
+                  <p class="date_text">{{item.date}}</p>
+                </div>
+                <div class="date_time card_date">
+                  <img src="assets/clock.svg" alt="" />
+                  <p class="date_text">{{item.time}}</p>
+                </div>
+                <div class="confirmation card_date">
+                  <img src="assets/red-dot.svg" alt="" />
+                  <p class="confirmation_text">Confirmada</p>
+                </div>
+              </div>
+              <div class="location_card">
+                <img src="assets/map.svg" alt="" />
+                <p class="location_text">{{item.location}}</p>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="menuDayClicked==true">
+          <div
+            class="card_wrapper stop_card"
+            *ngFor="let item of filteredStopDay"
+          >
+            <h1 class="card_title">Stop</h1>
+            <h3 class="location">მისამართი: {{item.city}}</h3>
+            <div class="location_wrapper">
+              <div class="date_wrapper">
+                <div class="date card_date">
+                  <img class="date_logo" src="assets/calendar.svg" alt="" />
+                  <p class="date_text">{{item.date}}</p>
+                </div>
+                <div class="date_time card_date">
+                  <img src="assets/clock.svg" alt="" />
+                  <p class="date_text">{{item.time}}</p>
+                </div>
+                <div class="confirmation card_date">
+                  <img src="assets/red-dot.svg" alt="" />
+                  <p class="confirmation_text">Confirmada</p>
+                </div>
+              </div>
+              <div class="location_card">
+                <img src="assets/map.svg" alt="" />
+                <p class="location_text">{{item.location}}</p>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="menuMonthClicked==true">
+          <div
+            class="card_wrapper stop_card"
+            *ngFor="let item of filteredStartDay"
+          >
+            <h1 class="card_title">Stop</h1>
+            <h3 class="location">მისამართი: {{item.city}}</h3>
+            <div class="location_wrapper">
+              <div class="date_wrapper">
+                <div class="date card_date">
+                  <img class="date_logo" src="assets/calendar.svg" alt="" />
+                  <p class="date_text">{{item.date}}</p>
+                </div>
+                <div class="date_time card_date">
+                  <img src="assets/clock.svg" alt="" />
+                  <p class="date_text">{{item.time}}</p>
+                </div>
+                <div class="confirmation card_date">
+                  <img src="assets/red-dot.svg" alt="" />
+                  <p class="confirmation_text">Confirmada</p>
+                </div>
+              </div>
+              <div class="location_card">
+                <img src="assets/map.svg" alt="" />
+                <p class="location_text">{{item.location}}</p>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="menuMonthClicked==true">
+          <div
+            class="card_wrapper stop_card"
+            *ngFor="let item of filteredStopDay"
+          >
+            <h1 class="card_title">Stop</h1>
+            <h3 class="location">მისამართი: {{item.city}}</h3>
+            <div class="location_wrapper">
+              <div class="date_wrapper">
+                <div class="date card_date">
+                  <img class="date_logo" src="assets/calendar.svg" alt="" />
+                  <p class="date_text">{{item.date}}</p>
+                </div>
+                <div class="date_time card_date">
+                  <img src="assets/clock.svg" alt="" />
+                  <p class="date_text">{{item.time}}</p>
+                </div>
+                <div class="confirmation card_date">
+                  <img src="assets/red-dot.svg" alt="" />
+                  <p class="confirmation_text">Confirmada</p>
+                </div>
+              </div>
+              <div class="location_card">
+                <img src="assets/map.svg" alt="" />
+                <p class="location_text">{{item.location}}</p>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="menuYearClicked==true">
+          <div
+            class="card_wrapper stop_card"
+            *ngFor="let item of filteredStartDay"
+          >
+            <h1 class="card_title">Stop</h1>
+            <h3 class="location">მისამართი: {{item.city}}</h3>
+            <div class="location_wrapper">
+              <div class="date_wrapper">
+                <div class="date card_date">
+                  <img class="date_logo" src="assets/calendar.svg" alt="" />
+                  <p class="date_text">{{item.date}}</p>
+                </div>
+                <div class="date_time card_date">
+                  <img src="assets/clock.svg" alt="" />
+                  <p class="date_text">{{item.time}}</p>
+                </div>
+                <div class="confirmation card_date">
+                  <img src="assets/red-dot.svg" alt="" />
+                  <p class="confirmation_text">Confirmada</p>
+                </div>
+              </div>
+              <div class="location_card">
+                <img src="assets/map.svg" alt="" />
+                <p class="location_text">{{item.location}}</p>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="menuYearClicked==true">
+          <div
+            class="card_wrapper stop_card"
+            *ngFor="let item of filteredStopDay"
+          >
+            <h1 class="card_title">Stop</h1>
+            <h3 class="location">მისამართი: {{item.city}}</h3>
+            <div class="location_wrapper">
+              <div class="date_wrapper">
+                <div class="date card_date">
+                  <img class="date_logo" src="assets/calendar.svg" alt="" />
+                  <p class="date_text">{{item.date}}</p>
+                </div>
+                <div class="date_time card_date">
+                  <img src="assets/clock.svg" alt="" />
+                  <p class="date_text">{{item.time}}</p>
+                </div>
+                <div class="confirmation card_date">
+                  <img src="assets/red-dot.svg" alt="" />
+                  <p class="confirmation_text">Confirmada</p>
+                </div>
+              </div>
+              <div class="location_card">
+                <img src="assets/map.svg" alt="" />
+                <p class="location_text">{{item.location}}</p>
+              </div>
+            </div>
+          </div>
+        </ng-container>
       </div>
-    </ng-container>
-    <ng-container *ngIf="menuDayClicked==true">
-      <div
-        class="card_wrapper start_card"
-        *ngFor="let item of filteredStartDay"
-      >
-        <h1 class="card_title">Start</h1>
-        <h3 class="location">მისამართი: {{item.city}}</h3>
-        <div class="location_wrapper">
-          <div class="date_wrapper">
-            <div class="date card_date">
-              <img class="date_logo" src="assets/calendar.svg" alt="" />
-              <p class="date_text">{{item.date}}</p>
-            </div>
-            <div class="date_time card_date">
-              <img src="assets/clock.svg" alt="" />
-              <p class="date_text">{{item.time}}</p>
-            </div>
-            <div class="confirmation card_date">
-              <img src="assets/green-dot.svg" alt="" />
-              <p class="confirmation_text">Confirmada</p>
-            </div>
-          </div>
-          <div class="location_card">
-            <img src="assets/map.svg" alt="" />
-            <p class="location_text">{{item.location}}</p>
-          </div>
-        </div>
-      </div>
-    </ng-container>
-    <ng-container
-      *ngIf="(menuDayClicked==false&&menuMonthClicked==false)&&menuYearClicked==false"
-    >
-      <div class="card_wrapper stop_card" *ngFor="let item of stopCardArr">
-        <h1 class="card_title">Stop</h1>
-        <h3 class="location">მისამართი: {{item.city}}</h3>
-        <div class="location_wrapper">
-          <div class="date_wrapper">
-            <div class="date card_date">
-              <img class="date_logo" src="assets/calendar.svg" alt="" />
-              <p class="date_text">{{item.date}}</p>
-            </div>
-            <div class="date_time card_date">
-              <img src="assets/clock.svg" alt="" />
-              <p class="date_text">{{item.time}}</p>
-            </div>
-            <div class="confirmation card_date">
-              <img src="assets/red-dot.svg" alt="" />
-              <p class="confirmation_text">Confirmada</p>
-            </div>
-          </div>
-          <div class="location_card">
-            <img src="assets/map.svg" alt="" />
-            <p class="location_text">{{item.location}}</p>
-          </div>
-        </div>
-      </div>
-    </ng-container>
-    <ng-container *ngIf="menuDayClicked==true">
-      <div class="card_wrapper stop_card" *ngFor="let item of filteredStopDay">
-        <h1 class="card_title">Stop</h1>
-        <h3 class="location">მისამართი: {{item.city}}</h3>
-        <div class="location_wrapper">
-          <div class="date_wrapper">
-            <div class="date card_date">
-              <img class="date_logo" src="assets/calendar.svg" alt="" />
-              <p class="date_text">{{item.date}}</p>
-            </div>
-            <div class="date_time card_date">
-              <img src="assets/clock.svg" alt="" />
-              <p class="date_text">{{item.time}}</p>
-            </div>
-            <div class="confirmation card_date">
-              <img src="assets/red-dot.svg" alt="" />
-              <p class="confirmation_text">Confirmada</p>
-            </div>
-          </div>
-          <div class="location_card">
-            <img src="assets/map.svg" alt="" />
-            <p class="location_text">{{item.location}}</p>
-          </div>
-        </div>
-      </div>
-    </ng-container>
-    <ng-container *ngIf="menuMonthClicked==true">
-      <div class="card_wrapper stop_card" *ngFor="let item of filteredStartDay">
-        <h1 class="card_title">Stop</h1>
-        <h3 class="location">მისამართი: {{item.city}}</h3>
-        <div class="location_wrapper">
-          <div class="date_wrapper">
-            <div class="date card_date">
-              <img class="date_logo" src="assets/calendar.svg" alt="" />
-              <p class="date_text">{{item.date}}</p>
-            </div>
-            <div class="date_time card_date">
-              <img src="assets/clock.svg" alt="" />
-              <p class="date_text">{{item.time}}</p>
-            </div>
-            <div class="confirmation card_date">
-              <img src="assets/red-dot.svg" alt="" />
-              <p class="confirmation_text">Confirmada</p>
-            </div>
-          </div>
-          <div class="location_card">
-            <img src="assets/map.svg" alt="" />
-            <p class="location_text">{{item.location}}</p>
-          </div>
-        </div>
-      </div>
-    </ng-container>
-    <ng-container *ngIf="menuMonthClicked==true">
-      <div class="card_wrapper stop_card" *ngFor="let item of filteredStopDay">
-        <h1 class="card_title">Stop</h1>
-        <h3 class="location">მისამართი: {{item.city}}</h3>
-        <div class="location_wrapper">
-          <div class="date_wrapper">
-            <div class="date card_date">
-              <img class="date_logo" src="assets/calendar.svg" alt="" />
-              <p class="date_text">{{item.date}}</p>
-            </div>
-            <div class="date_time card_date">
-              <img src="assets/clock.svg" alt="" />
-              <p class="date_text">{{item.time}}</p>
-            </div>
-            <div class="confirmation card_date">
-              <img src="assets/red-dot.svg" alt="" />
-              <p class="confirmation_text">Confirmada</p>
-            </div>
-          </div>
-          <div class="location_card">
-            <img src="assets/map.svg" alt="" />
-            <p class="location_text">{{item.location}}</p>
-          </div>
-        </div>
-      </div>
-    </ng-container>
-    <ng-container *ngIf="menuYearClicked==true">
-      <div class="card_wrapper stop_card" *ngFor="let item of filteredStartDay">
-        <h1 class="card_title">Stop</h1>
-        <h3 class="location">მისამართი: {{item.city}}</h3>
-        <div class="location_wrapper">
-          <div class="date_wrapper">
-            <div class="date card_date">
-              <img class="date_logo" src="assets/calendar.svg" alt="" />
-              <p class="date_text">{{item.date}}</p>
-            </div>
-            <div class="date_time card_date">
-              <img src="assets/clock.svg" alt="" />
-              <p class="date_text">{{item.time}}</p>
-            </div>
-            <div class="confirmation card_date">
-              <img src="assets/red-dot.svg" alt="" />
-              <p class="confirmation_text">Confirmada</p>
-            </div>
-          </div>
-          <div class="location_card">
-            <img src="assets/map.svg" alt="" />
-            <p class="location_text">{{item.location}}</p>
-          </div>
-        </div>
-      </div>
-    </ng-container>
-    <ng-container *ngIf="menuYearClicked==true">
-      <div class="card_wrapper stop_card" *ngFor="let item of filteredStopDay">
-        <h1 class="card_title">Stop</h1>
-        <h3 class="location">მისამართი: {{item.city}}</h3>
-        <div class="location_wrapper">
-          <div class="date_wrapper">
-            <div class="date card_date">
-              <img class="date_logo" src="assets/calendar.svg" alt="" />
-              <p class="date_text">{{item.date}}</p>
-            </div>
-            <div class="date_time card_date">
-              <img src="assets/clock.svg" alt="" />
-              <p class="date_text">{{item.time}}</p>
-            </div>
-            <div class="confirmation card_date">
-              <img src="assets/red-dot.svg" alt="" />
-              <p class="confirmation_text">Confirmada</p>
-            </div>
-          </div>
-          <div class="location_card">
-            <img src="assets/map.svg" alt="" />
-            <p class="location_text">{{item.location}}</p>
-          </div>
-        </div>
-      </div>
-    </ng-container>
-  </div>
+    </ion-card-content>
+  </ion-card>
 </ion-content>
