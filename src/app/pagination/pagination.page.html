@@ -9,8 +9,8 @@
       <ion-card-header>
         <img src="assets/settings.svg" class="settings_icon" alt="" />
 
-        <ion-card-title>საცდელი</ion-card-title>
-        <ion-card-subtitle>სახელი და გვარი</ion-card-subtitle>
+        <ion-card-title color="dark">საცდელი</ion-card-title>
+        <ion-card-subtitle color="dark">სახელი და გვარი</ion-card-subtitle>
       </ion-card-header>
       <ion-card-content>
         <div class="button_wrapper">
@@ -23,8 +23,12 @@
           </button>
 
           <div [ngSwitch]="startLocationValid">
-            <p *ngSwitchCase="true">{{start_success_text}}</p>
-            <p *ngSwitchCase="false">{{start_error_text}}</p>
+            <p *ngSwitchCase="true" style="color: black">
+              {{start_success_text}}
+            </p>
+            <p *ngSwitchCase="false" style="color: black">
+              {{start_error_text}}
+            </p>
           </div>
 
           <button
@@ -35,8 +39,12 @@
             Stop
           </button>
           <div [ngSwitch]="stopLocationValid">
-            <p *ngSwitchCase="true">{{stop_success_text}}</p>
-            <p *ngSwitchCase="false">{{stop_error_text}}</p>
+            <p *ngSwitchCase="true" style="color: black">
+              {{stop_success_text}}
+            </p>
+            <p *ngSwitchCase="false" style="color: black">
+              {{stop_error_text}}
+            </p>
           </div>
         </div>
         <img

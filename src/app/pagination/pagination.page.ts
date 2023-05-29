@@ -17,9 +17,10 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 })
 export class PaginationPage implements OnInit {
   api_key: string = 'AIzaSyDHSxnbaGQzITfhphIkZpxAnhgMZY-ziZo';
-  desiredLatitude: number = 41.7154191;
-  desiredLongitude: number = 44.7766157;
-  // desiredLocation = "9/11 Simon Chikovani St, T'bilisi";
+  desiredLatitude: string = '41.7154';
+  desiredLongitude: string = '44.7766';
+  desiredPlaceId: string = 'ChIJVxFVtitzREARceFns6TUpFg';
+  placeId: string = '';
   city: string;
   choiceMade = false;
   currentTime: string;
@@ -37,9 +38,9 @@ export class PaginationPage implements OnInit {
   startClicked = false;
   stopClicked = false;
   isActive = false;
-  latitude: number;
-  longitude: number;
-  location: any = '';
+  latitude: string;
+  longitude: string;
+  location: string = '';
   startLocationValid: boolean = false;
   stopLocationValid: boolean = false;
   url: any;
@@ -124,26 +125,33 @@ export class PaginationPage implements OnInit {
     };
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        this.latitude = position.coords.latitude;
-        this.longitude = position.coords.longitude;
+        this.latitude = position.coords.latitude.toString();
+        this.longitude = position.coords.longitude.toString();
+        // alert(
+        //   `Latitude:${this.latitude},Longitude:${this.longitude} and ${
+        //     this.latitude == this.desiredLatitude
+        //   } also ${this.longitude == this.desiredLongitude}`
+        // );
         this.url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.latitude},${this.longitude}&key=${this.api_key}`;
-
+        console.log(this.latitude, this.longitude);
         this.getFullAddress(this.url).subscribe((res) => {
+          // this.placeId = res[2].place_id;
           this.location = res.results[0].formatted_address;
           this.city = res.results[9].formatted_address;
           console.log(res);
           console.log(this.location, this.city);
           if (
-            this.latitude == this.desiredLatitude &&
-            this.longitude == this.desiredLongitude
+            Number(this.latitude).toFixed(4) == this.desiredLatitude &&
+            Number(this.longitude).toFixed(4) == this.desiredLongitude
           ) {
             this.startLocationValid = true;
           } else {
             this.startLocationValid = false;
           }
+
           if (this.startLocationValid === true) {
             this.start_success_text = 'successfully added';
-            this.stopCardArr.push({
+            this.startCardArr.push({
               location: this.location,
               city: this.city,
               date: this.currentDate,
@@ -177,7 +185,9 @@ export class PaginationPage implements OnInit {
 
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        console.log(this.latitude, this.longitude);
+        this.latitude = position.coords.latitude.toString();
+        this.longitude = position.coords.longitude.toString();
+        // alert(`Latitude:${this.latitude},Longitude:${this.longitude}`);
         this.url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.latitude},${this.longitude}&key=${this.api_key}`;
 
         this.getFullAddress(this.url).subscribe((res) => {
@@ -187,13 +197,12 @@ export class PaginationPage implements OnInit {
           this.location = res.results[0].formatted_address;
           this.city = res.results[0].address_components[5].long_name;
           console.log(this.location, this.city);
+
           if (
-            this.latitude == this.desiredLatitude &&
-            this.longitude == this.desiredLongitude
+            Number(this.latitude).toFixed(4) == this.desiredLatitude &&
+            Number(this.longitude).toFixed(4) == this.desiredLongitude
           ) {
             this.stopLocationValid = true;
-          } else {
-            this.stopLocationValid = false;
           }
           if (this.stopLocationValid === true) {
             this.stop_success_text = 'successfully added';
@@ -212,8 +221,7 @@ export class PaginationPage implements OnInit {
         });
       },
 
-      this.error,
-      options
+      this.error
     );
   }
 
@@ -245,21 +253,21 @@ export class PaginationPage implements OnInit {
   monthClicked() {
     this.menuMonthClicked = true;
     this.filteredStartMonth = this.startCardArr.sort(
-      (a: any, b: any) => b.day - a.day
+      (a: any, b: any) => b.month - a.month
     );
 
     this.filteredStopMonth = this.stopCardArr.sort(
-      (a: any, b: any) => b.day - a.day
+      (a: any, b: any) => b.month - a.month
     );
   }
   yearClicked() {
     this.menuYearClicked = true;
     this.filteredStartYear = this.startCardArr.sort(
-      (a: any, b: any) => b.day - a.day
+      (a: any, b: any) => b.year - a.year
     );
 
     this.filteredStopYear = this.stopCardArr.sort(
-      (a: any, b: any) => b.day - a.day
+      (a: any, b: any) => b.year - a.year
     );
   }
 

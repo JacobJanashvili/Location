@@ -2,36 +2,33 @@
   <ion-card>
     <ion-card-content>
       <div class="wrapper">
-        <div class="subwrapper">
-          <ion-card-header>
-            <ion-card-title class="title">ავტორიზება</ion-card-title>
-          </ion-card-header>
-          <h1></h1>
-          <form class="auth">
-            <ion-item>
-              <ion-label for="user" position="floating">მომხმარებელი</ion-label>
-              <ion-input
-                type="text"
-                placeholder="პირადი ნომერი"
-                [(ngModel)]="user"
-                name="user"
-              >
-              </ion-input>
-            </ion-item>
-            <ion-item>
-              <ion-label for="password" position="floating">პაროლი</ion-label>
-              <ion-input
-                type="password"
-                [(ngModel)]="password"
-                name="password"
-                
-              ></ion-input>
-            </ion-item>
-            <ion-button fill="clear" size="full" (click)="submitForm()"
-              >Login</ion-button
+        <ion-card-header>
+          <ion-card-title class="title">ავტორიზება</ion-card-title>
+        </ion-card-header>
+        <h1></h1>
+        <form class="auth">
+          <ion-item>
+            <ion-label for="user" position="floating">მომხმარებელი</ion-label>
+            <ion-input
+              type="text"
+              placeholder="პირადი ნომერი"
+              [(ngModel)]="user"
+              name="user"
             >
-          </form>
-        </div>
+            </ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label for="password" position="floating">პაროლი</ion-label>
+            <ion-input
+              type="password"
+              [(ngModel)]="password"
+              name="password"
+            ></ion-input>
+          </ion-item>
+          <ion-button fill="clear" size="full" (click)="submitForm()"
+            >Login</ion-button
+          >
+        </form>
       </div>
     </ion-card-content>
   </ion-card>
