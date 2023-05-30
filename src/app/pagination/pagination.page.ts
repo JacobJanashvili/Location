@@ -70,8 +70,6 @@ export class PaginationPage implements OnInit {
     console.warn(`ERROR(${err.code}): ${err.message}`);
   }
 
-  getLocation() {}
-
   getCurrentDay() {
     const daysOfWeek = [
       'Sunday',
@@ -127,18 +125,12 @@ export class PaginationPage implements OnInit {
       (position) => {
         this.latitude = position.coords.latitude.toString();
         this.longitude = position.coords.longitude.toString();
-        // alert(
-        //   `Latitude:${this.latitude},Longitude:${this.longitude} and ${
-        //     this.latitude == this.desiredLatitude
-        //   } also ${this.longitude == this.desiredLongitude}`
-        // );
         this.url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.latitude},${this.longitude}&key=${this.api_key}`;
         console.log(this.latitude, this.longitude);
         this.getFullAddress(this.url).subscribe((res) => {
-          // this.placeId = res[2].place_id;
-          this.location = res.results[0].formatted_address;
-          this.city = res.results[9].formatted_address;
           console.log(res);
+          this.location = res.results[0].formatted_address;
+          this.city = res.results[7].formatted_address;
           console.log(this.location, this.city);
           if (
             Number(this.latitude).toFixed(4) == this.desiredLatitude &&
@@ -187,15 +179,12 @@ export class PaginationPage implements OnInit {
       (position) => {
         this.latitude = position.coords.latitude.toString();
         this.longitude = position.coords.longitude.toString();
-        // alert(`Latitude:${this.latitude},Longitude:${this.longitude}`);
         this.url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.latitude},${this.longitude}&key=${this.api_key}`;
 
         this.getFullAddress(this.url).subscribe((res) => {
           this.location = res.results[0].formatted_address;
-          this.city = res.results[9].formatted_address;
+          this.city = res.results[7].formatted_address;
           console.log(res);
-          this.location = res.results[0].formatted_address;
-          this.city = res.results[0].address_components[5].long_name;
           console.log(this.location, this.city);
 
           if (
