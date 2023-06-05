@@ -55,15 +55,21 @@ export class LocationListPage implements OnInit {
     );
   }
   ngOnInit() {
-    this._location.startCard.subscribe((res) => {
-      this.startCard = res;
-      console.log(this.startCard);
+    this._location.getStartCard().subscribe((res) => {
+      if (res) {
+        this.startCard = res;
+      }
     });
-    this._location.stopCard.subscribe((res) => {
-      this.stopCard = res;
+    this._location.getStopCard().subscribe((res) => {
+      if(res){
+        this.stopCard=res
+      }
     });
-    this._location.choiceMade.subscribe((res) => {
-      this.choiceMade = res;
+    this._location.getChoice().subscribe((res) => {
+      if(res){
+        this.choiceMade=res
+        console.log(this.choiceMade)
+      }
     });
   }
 }

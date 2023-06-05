@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '../location';
 import * as geolib from 'geolib';
 import {
   Observable,
@@ -34,8 +35,8 @@ export class PaginationPage implements OnInit {
   start_success_text: string;
   stop_error_text: string;
   stop_success_text: string;
-  startCardArr: any = [];
-  stopCardArr: any = [];
+  startCardArr: Location[] = [];
+  stopCardArr: Location[] = [];
   selectedItem = '';
   startClicked = false;
   stopClicked = false;
@@ -134,7 +135,7 @@ export class PaginationPage implements OnInit {
           this.location = res.results[0].formatted_address;
           this.city = res.results[7].formatted_address;
           console.log(this.location, this.city);
-          if (distance <= 1205 || distance == 0) {
+          if (distance <= 5100 || distance == 0) {
             this.startLocationValid = true;
           } else {
             this.startLocationValid = false;
@@ -142,16 +143,31 @@ export class PaginationPage implements OnInit {
 
           if (this.startLocationValid === true) {
             this.start_success_text = 'successfully added';
-            this._location.startCardSubject.next({
-              location: this.location,
-              city: this.city,
-              date: this.currentDate,
-              time: this.currentTime,
-              day: this.currentDay,
-              month: this.currentMonth,
-              year: this.currentYear,
-            });
-            this._location.startCardSubject.next(this.startCardArr);
+            this._location.startCard.next([
+              {
+                location: this.location,
+                city: this.city,
+                date: this.currentDate,
+                time: this.currentTime,
+                day: this.currentDay,
+                month: this.currentMonth,
+                year: this.currentYear,
+              },
+            ]);
+            if (
+              this._location.startCard.value !== null &&
+              this._location.startCard.value.length
+            ) {
+              this._location.updateData(this._location.startCard, {
+                location: this.location,
+                city: this.city,
+                date: this.currentDate,
+                time: this.currentTime,
+                day: this.currentDay,
+                month: this.currentMonth,
+                year: this.currentYear,
+              });
+            }
           } else {
             this.start_error_text = 'locations dont match';
           }
@@ -190,21 +206,36 @@ export class PaginationPage implements OnInit {
           this.city = res.results[7].formatted_address;
           console.log(res);
 
-          if (distance <= 1205 || distance == 0) {
+          if (distance <= 5100 || distance == 0) {
             this.stopLocationValid = true;
           }
           if (this.stopLocationValid === true) {
             this.stop_success_text = 'successfully added';
-            this._location.stopCardSubject.next({
-              location: this.location,
-              city: this.city,
-              date: this.currentDate,
-              time: this.currentTime,
-              day: this.currentDay,
-              month: this.currentMonth,
-              year: this.currentYear,
-            });
-            this._location.stopCardSubject.next(this.stopCardArr);
+            this._location.stopCard.next([
+              {
+                location: this.location,
+                city: this.city,
+                date: this.currentDate,
+                time: this.currentTime,
+                day: this.currentDay,
+                month: this.currentMonth,
+                year: this.currentYear,
+              },
+            ]);
+            if (
+              this._location.stopCard.value !== null &&
+              this._location.stopCard.value.length
+            ) {
+              this._location.updateData(this._location.stopCard, {
+                location: this.location,
+                city: this.city,
+                date: this.currentDate,
+                time: this.currentTime,
+                day: this.currentDay,
+                month: this.currentMonth,
+                year: this.currentYear,
+              });
+            }
           } else {
             this.stop_error_text = 'locations dont match';
           }
@@ -231,7 +262,7 @@ export class PaginationPage implements OnInit {
       (this.stop_error_text || this.stop_success_text)
     ) {
       this.choiceMade = true;
-      this._location.choiceMadeSubject.next(this.choiceMade);
+      this._location.choiceMade.next(this.choiceMade);
     }
     if (this.choiceMade == true) {
       this.router.navigate(['/location-list']);

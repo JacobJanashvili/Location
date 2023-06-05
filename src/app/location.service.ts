@@ -1,5 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Location } from './location';
 import {
   BehaviorSubject,
   Observable,
@@ -15,10 +16,22 @@ import {
   providedIn: 'root',
 })
 export class LocationService {
-  startCardSubject = new BehaviorSubject([]);
-  stopCardSubject = new BehaviorSubject([]);
-  choiceMadeSubject = new BehaviorSubject<boolean>(false);
-  startCard = this.startCardSubject.asObservable();
-  stopCard = this.stopCardSubject.asObservable();
-  choiceMade = this.choiceMadeSubject.asObservable();
+  startCard = new BehaviorSubject<Location[] | null>(null);
+  stopCard = new BehaviorSubject<Location[] | null>(null);
+  choiceMade = new BehaviorSubject<boolean>(false);
+
+  getStartCard() {
+    return this.startCard.asObservable();
+  }
+  getStopCard() {
+    return this.stopCard.asObservable();
+  }
+  getChoice() {
+    return this.choiceMade.asObservable();
+  }
+  updateData(target: any, dataObj: any) {
+    const currentValue = target.value;
+    const updatedValue = [...currentValue, dataObj];
+    target.next(updatedValue);
+  }
 }
