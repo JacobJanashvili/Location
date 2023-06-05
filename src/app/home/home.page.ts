@@ -1,12 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AndroidFullScreen } from '@ionic-native/android-full-screen/ngx';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage {
+export class HomePage implements OnInit {
+  constructor(
+    private router: Router,
+    private androidFullScreen: AndroidFullScreen
+  ) {}
   userValid: any = '2001';
   user = '';
   password: any = '';
@@ -16,5 +21,15 @@ export class HomePage {
       this.router.navigate(['./pagination']);
     }
   }
-  constructor(private router: Router) {}
+  enableFullscreen() {
+    this.androidFullScreen.isSupported().then(() => {
+      this.androidFullScreen.isImmersiveModeSupported().then(() => {
+        this.androidFullScreen.immersiveMode();
+      });
+    });
+  }
+
+  ngOnInit(): void {
+    this.enableFullscreen();
+  }
 }

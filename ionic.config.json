@@ -2,7 +2,9 @@
   "name": "myApp",
   "integrations": {
     "capacitor": {},
-    "cordova": {}
+    "cordova": {
+      "enabled": false
+    }
   },
   "type": "angular"
 }

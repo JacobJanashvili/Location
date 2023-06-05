@@ -14,7 +14,11 @@ const routes: Routes = [
   {
     path: 'pagination',
     loadChildren: () => import('./pagination/pagination.module').then( m => m.PaginationPageModule)
+  },  {
+    path: 'location-list',
+    loadChildren: () => import('./location-list/location-list.module').then( m => m.LocationListPageModule)
   },
+
 ];
 
 @NgModule({

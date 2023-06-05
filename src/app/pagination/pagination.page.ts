@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import * as geolib from 'geolib';
 import {
   Observable,
   catchError,
@@ -9,6 +9,8 @@ import {
   timeout,
 } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { LocationService } from '../location.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-pagination',
@@ -17,8 +19,8 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 })
 export class PaginationPage implements OnInit {
   api_key: string = 'AIzaSyDHSxnbaGQzITfhphIkZpxAnhgMZY-ziZo';
-  desiredLatitude: string = '41.7154';
-  desiredLongitude: string = '44.7766';
+  desiredLatitude: number = 41.7154256457209;
+  desiredLongitude: number = 44.776719421872976;
   desiredPlaceId: string = 'ChIJVxFVtitzREARceFns6TUpFg';
   placeId: string = '';
   city: string;
@@ -38,23 +40,18 @@ export class PaginationPage implements OnInit {
   startClicked = false;
   stopClicked = false;
   isActive = false;
-  latitude: string;
-  longitude: string;
+  latitude: number;
+  longitude: number;
   location: string = '';
   startLocationValid: boolean = false;
   stopLocationValid: boolean = false;
   url: any;
-  filteredStartDay: any = [];
-  filteredStartMonth: any = [];
-  filteredStartYear: any = [];
-  filteredStopDay: any = [];
-  filteredStopMonth: any = [];
-  filteredStopYear: any = [];
-  menuDayClicked = false;
-  menuMonthClicked = false;
-  menuYearClicked = false;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private _location: LocationService,
+    private router: Router
+  ) {}
 
   getFullAddress(url: any): Observable<any> {
     return this.http.get<any>(url).pipe(
@@ -123,8 +120,13 @@ export class PaginationPage implements OnInit {
     };
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        this.latitude = position.coords.latitude.toString();
-        this.longitude = position.coords.longitude.toString();
+        this.latitude = position.coords.latitude;
+        this.longitude = position.coords.longitude;
+        const distance = geolib.getDistance(
+          { latitude: this.latitude, longitude: this.longitude },
+          { latitude: this.desiredLatitude, longitude: this.desiredLongitude }
+        );
+        console.log(distance);
         this.url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.latitude},${this.longitude}&key=${this.api_key}`;
         console.log(this.latitude, this.longitude);
         this.getFullAddress(this.url).subscribe((res) => {
@@ -132,10 +134,7 @@ export class PaginationPage implements OnInit {
           this.location = res.results[0].formatted_address;
           this.city = res.results[7].formatted_address;
           console.log(this.location, this.city);
-          if (
-            Number(this.latitude).toFixed(4) == this.desiredLatitude &&
-            Number(this.longitude).toFixed(4) == this.desiredLongitude
-          ) {
+          if (distance <= 1205 || distance == 0) {
             this.startLocationValid = true;
           } else {
             this.startLocationValid = false;
@@ -143,7 +142,7 @@ export class PaginationPage implements OnInit {
 
           if (this.startLocationValid === true) {
             this.start_success_text = 'successfully added';
-            this.startCardArr.push({
+            this._location.startCardSubject.next({
               location: this.location,
               city: this.city,
               date: this.currentDate,
@@ -152,6 +151,7 @@ export class PaginationPage implements OnInit {
               month: this.currentMonth,
               year: this.currentYear,
             });
+            this._location.startCardSubject.next(this.startCardArr);
           } else {
             this.start_error_text = 'locations dont match';
           }
@@ -174,28 +174,28 @@ export class PaginationPage implements OnInit {
       enableHighAccuracy: true,
       maximumAge: 0,
     };
-
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        this.latitude = position.coords.latitude.toString();
-        this.longitude = position.coords.longitude.toString();
+        this.latitude = position.coords.latitude;
+        this.longitude = position.coords.longitude;
+        const distance = geolib.getDistance(
+          { latitude: this.latitude, longitude: this.longitude },
+          { latitude: this.desiredLatitude, longitude: this.desiredLongitude }
+        );
+        console.log(distance);
         this.url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.latitude},${this.longitude}&key=${this.api_key}`;
 
         this.getFullAddress(this.url).subscribe((res) => {
           this.location = res.results[0].formatted_address;
           this.city = res.results[7].formatted_address;
           console.log(res);
-          console.log(this.location, this.city);
 
-          if (
-            Number(this.latitude).toFixed(4) == this.desiredLatitude &&
-            Number(this.longitude).toFixed(4) == this.desiredLongitude
-          ) {
+          if (distance <= 1205 || distance == 0) {
             this.stopLocationValid = true;
           }
           if (this.stopLocationValid === true) {
             this.stop_success_text = 'successfully added';
-            this.stopCardArr.push({
+            this._location.stopCardSubject.next({
               location: this.location,
               city: this.city,
               date: this.currentDate,
@@ -204,6 +204,7 @@ export class PaginationPage implements OnInit {
               month: this.currentMonth,
               year: this.currentYear,
             });
+            this._location.stopCardSubject.next(this.stopCardArr);
           } else {
             this.stop_error_text = 'locations dont match';
           }
@@ -225,39 +226,20 @@ export class PaginationPage implements OnInit {
     this.currentDate = new Date().toLocaleDateString();
   }
   choiceCheck() {
-    if (this.start_success_text && this.stop_success_text) {
+    if (
+      (this.start_error_text || this.start_success_text) &&
+      (this.stop_error_text || this.stop_success_text)
+    ) {
       this.choiceMade = true;
+      this._location.choiceMadeSubject.next(this.choiceMade);
     }
-  }
-  dayClicked() {
-    this.menuDayClicked = true;
-    this.filteredStartDay = this.startCardArr.sort(
-      (a: any, b: any) => b.day - a.day
-    );
-
-    this.filteredStopDay = this.stopCardArr.sort(
-      (a: any, b: any) => b.day - a.day
-    );
-  }
-  monthClicked() {
-    this.menuMonthClicked = true;
-    this.filteredStartMonth = this.startCardArr.sort(
-      (a: any, b: any) => b.month - a.month
-    );
-
-    this.filteredStopMonth = this.stopCardArr.sort(
-      (a: any, b: any) => b.month - a.month
-    );
-  }
-  yearClicked() {
-    this.menuYearClicked = true;
-    this.filteredStartYear = this.startCardArr.sort(
-      (a: any, b: any) => b.year - a.year
-    );
-
-    this.filteredStopYear = this.stopCardArr.sort(
-      (a: any, b: any) => b.year - a.year
-    );
+    if (this.choiceMade == true) {
+      this.router.navigate(['/location-list']);
+      this.start_error_text = '';
+      this.start_success_text = '';
+      this.stop_error_text = '';
+      this.stop_success_text = '';
+    }
   }
 
   ngOnInit() {}
