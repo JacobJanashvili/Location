@@ -16,8 +16,8 @@ import {
   providedIn: 'root',
 })
 export class LocationService {
-  startCard = new BehaviorSubject<Location[] | null>(null);
-  stopCard = new BehaviorSubject<Location[] | null>(null);
+  startCard = new BehaviorSubject<Location[]>([]);
+  stopCard = new BehaviorSubject<Location[]>([]);
   choiceMade = new BehaviorSubject<boolean>(false);
 
   getStartCard() {
@@ -29,9 +29,7 @@ export class LocationService {
   getChoice() {
     return this.choiceMade.asObservable();
   }
-  updateData(target: any, dataObj: any) {
-    const currentValue = target.value;
-    const updatedValue = [...currentValue, dataObj];
-    target.next(updatedValue);
+  updateData(target: any, data: any) {
+    target.next(data);
   }
 }

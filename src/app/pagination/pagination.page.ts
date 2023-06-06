@@ -115,6 +115,9 @@ export class PaginationPage implements OnInit {
     this.currentDay = this.getCurrentDay();
     this.currentMonth = this.getCurrentMonth();
     this.currentYear = this.getCurrentYear();
+    if (this._location.startCard.value) {
+      this._location.updateData(this._location.startCard, this.startCardArr);
+    }
     const options = {
       enableHighAccuracy: true,
       maximumAge: 0,
@@ -143,31 +146,15 @@ export class PaginationPage implements OnInit {
 
           if (this.startLocationValid === true) {
             this.start_success_text = 'successfully added';
-            this._location.startCard.next([
-              {
-                location: this.location,
-                city: this.city,
-                date: this.currentDate,
-                time: this.currentTime,
-                day: this.currentDay,
-                month: this.currentMonth,
-                year: this.currentYear,
-              },
-            ]);
-            if (
-              this._location.startCard.value !== null &&
-              this._location.startCard.value.length
-            ) {
-              this._location.updateData(this._location.startCard, {
-                location: this.location,
-                city: this.city,
-                date: this.currentDate,
-                time: this.currentTime,
-                day: this.currentDay,
-                month: this.currentMonth,
-                year: this.currentYear,
-              });
-            }
+            this.startCardArr.push({
+              location: this.location,
+              city: this.city,
+              date: this.currentDate,
+              time: this.currentTime,
+              day: this.currentDay,
+              month: this.currentMonth,
+              year: this.currentYear,
+            });
           } else {
             this.start_error_text = 'locations dont match';
           }
@@ -184,6 +171,9 @@ export class PaginationPage implements OnInit {
     this.currentDay = this.getCurrentDay();
     this.currentMonth = this.getCurrentMonth();
     this.currentYear = this.getCurrentYear();
+    if (this._location.stopCard.value) {
+      this._location.updateData(this._location.stopCard, this.stopCardArr);
+    }
     this.setCurrentTime();
     this.setCurrentDate();
     const options = {
@@ -211,31 +201,15 @@ export class PaginationPage implements OnInit {
           }
           if (this.stopLocationValid === true) {
             this.stop_success_text = 'successfully added';
-            this._location.stopCard.next([
-              {
-                location: this.location,
-                city: this.city,
-                date: this.currentDate,
-                time: this.currentTime,
-                day: this.currentDay,
-                month: this.currentMonth,
-                year: this.currentYear,
-              },
-            ]);
-            if (
-              this._location.stopCard.value !== null &&
-              this._location.stopCard.value.length
-            ) {
-              this._location.updateData(this._location.stopCard, {
-                location: this.location,
-                city: this.city,
-                date: this.currentDate,
-                time: this.currentTime,
-                day: this.currentDay,
-                month: this.currentMonth,
-                year: this.currentYear,
-              });
-            }
+            this.stopCardArr.push({
+              location: this.location,
+              city: this.city,
+              date: this.currentDate,
+              time: this.currentTime,
+              day: this.currentDay,
+              month: this.currentMonth,
+              year: this.currentYear,
+            });
           } else {
             this.stop_error_text = 'locations dont match';
           }

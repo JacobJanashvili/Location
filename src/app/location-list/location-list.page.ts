@@ -8,8 +8,8 @@ import { LocationService } from '../location.service';
 })
 export class LocationListPage implements OnInit {
   selectedItem: string = '';
-  startCard: any[] = [];
-  stopCard: any[] = [];
+  startCard: any = [];
+  stopCard: any = [];
   choiceMade: boolean;
   filteredStartDay: any = [];
   filteredStartMonth: any = [];
@@ -55,21 +55,15 @@ export class LocationListPage implements OnInit {
     );
   }
   ngOnInit() {
-    this._location.getStartCard().subscribe((res) => {
-      if (res) {
-        this.startCard = res;
-      }
+    this._location.getStartCard().subscribe((startCard) => {
+      this.startCard = startCard;
     });
-    this._location.getStopCard().subscribe((res) => {
-      if(res){
-        this.stopCard=res
-      }
+    this._location.getStopCard().subscribe((stopCard) => {
+      this.stopCard = stopCard;
     });
     this._location.getChoice().subscribe((res) => {
-      if(res){
-        this.choiceMade=res
-        console.log(this.choiceMade)
-      }
+      this.choiceMade = res;
+      console.log(this.choiceMade);
     });
   }
 }
