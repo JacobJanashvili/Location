@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=B612+Mono:wght@400;700&display=swap");
 @font-face {
   font-family: BPG Mrgvlovani 2010;
   src: url("../../assets/fonts/bpg_mrgvlovani_2010.ttf");
@@ -7,9 +8,9 @@
 ion-card-header {
   padding: 10%;
 }
+
 .wrapper {
   background-color: #7266d8;
-  width: 100vw;
   height: 100vh;
   position: relative;
   .title_wrapper {
@@ -24,7 +25,7 @@ ion-card-header {
       font-size: 30px;
     }
   }
-  .settings_icon {
+  .exit_icon {
     position: absolute;
     top: 40px;
     right: 5%;
@@ -58,93 +59,33 @@ ion-card-header {
   .button_wrapper {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     margin-top: 40%;
+
+    font-weight: 400;
     button {
-      padding: 5% 25%;
-      font-size: 31px;
+      padding: 5% 0;
       margin: 2% 0;
       border-radius: 8px;
+      font-size: 1.5rem;
+      font-family: "B612 Mono", monospace;
+      font-weight: 400;
     }
     .start_btn {
+      width: 70%;
       background-color: #2cbf14;
+      color: white;
+    }
+    .start_btn.disabled {
+      color: rgba(0, 0, 0, 0.185);
     }
     .stop_btn {
+      width: 70%;
       background-color: #f31f52;
+      color: white;
     }
-  }
-  .choice_submit {
-    display: block;
-    margin: 25% auto;
-  }
-  .card_wrapper {
-    border: 2px solid black;
-    padding: 0 30% 10% 2%;
-    background-color: white;
-    color: black;
-    width: 97%;
-    margin: 0 auto;
-    font-family: "Noto Sans Georgian", sans-serif;
-    margin-top: 10%;
-    border-radius: 5px;
-
-    .card_title {
-      margin-left: 5%;
-      font-size: 29px;
-    }
-    .card_title::after {
-      content: "";
-      width: 100%;
-      height: 1px;
-      background-color: #858586;
-      display: block;
-    }
-    .location {
-      font-size: 20px;
-      margin-left: 5%;
-    }
-    .date_wrapper {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      margin-left: 20%;
-      margin-top: 5%;
-
-      .card_date {
-        margin: 0 20px;
-      }
-      .date_text {
-        padding-left: 15%;
-      }
-      .confirmation_text {
-        padding-left: 15%;
-      }
-      .date {
-        display: flex;
-        align-items: center;
-      }
-      .date_time {
-        display: flex;
-        align-items: center;
-        width: 100%;
-        font-size: 17px;
-        white-space: nowrap;
-      }
-      .confirmation {
-        display: flex;
-        align-items: center;
-      }
-    }
-    .location_card {
-      display: flex;
-      align-items: center;
-      margin-left: 2%;
-      margin-top: 5%;
-      .location_text {
-        margin-left: 5%;
-      }
+    .stop_btn.disabled {
+      color: rgba(0, 0, 0, 0.185);
     }
   }
 }

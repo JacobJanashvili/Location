@@ -19,7 +19,11 @@ export class LocationService {
   startCard = new BehaviorSubject<Location[]>([]);
   stopCard = new BehaviorSubject<Location[]>([]);
   choiceMade = new BehaviorSubject<boolean>(false);
-
+  userName = new BehaviorSubject<string>('');
+  userNameObservable = this.userName.asObservable();
+  sendUserData(data: any) {
+    this.userName.next(data);
+  }
   getStartCard() {
     return this.startCard.asObservable();
   }

@@ -2,16 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { Location } from '../location';
 import * as geolib from 'geolib';
 import {
+  BehaviorSubject,
   Observable,
   catchError,
   delay,
   retry,
   throwError,
-  timeout,
 } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { LocationService } from '../location.service';
 import { Router } from '@angular/router';
+import { App } from '@capacitor/app';
 
 @Component({
   selector: 'app-pagination',
@@ -37,8 +38,10 @@ export class PaginationPage implements OnInit {
   stop_success_text: string;
   startCardArr: Location[] = [];
   stopCardArr: Location[] = [];
+  startDistance: number;
+  stopDistance: number;
   selectedItem = '';
-  startClicked = false;
+  startClicked = true;
   stopClicked = false;
   isActive = false;
   latitude: number;
@@ -47,12 +50,14 @@ export class PaginationPage implements OnInit {
   startLocationValid: boolean = false;
   stopLocationValid: boolean = false;
   url: any;
-
+  App: any;
   constructor(
     private http: HttpClient,
     private _location: LocationService,
     private router: Router
-  ) {}
+  ) {
+    this.App = App;
+  }
 
   getFullAddress(url: any): Observable<any> {
     return this.http.get<any>(url).pipe(
@@ -108,8 +113,10 @@ export class PaginationPage implements OnInit {
   }
 
   startBtnClicked() {
-    this.startClicked = true;
-    this.stopClicked = false;
+    this.startClicked = !this.startClicked;
+    this.stopClicked = !this.stopClicked;
+    this.stop_error_text = '';
+    this.stop_success_text = '';
     this.setCurrentTime();
     this.setCurrentDate();
     this.currentDay = this.getCurrentDay();
@@ -130,20 +137,16 @@ export class PaginationPage implements OnInit {
           { latitude: this.latitude, longitude: this.longitude },
           { latitude: this.desiredLatitude, longitude: this.desiredLongitude }
         );
-        console.log(distance);
+
+        this.getStartDistance(distance);
+        if (this.startDistance <= 50) {
+          this.startLocationValid = true;
+        }
         this.url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.latitude},${this.longitude}&key=${this.api_key}`;
         console.log(this.latitude, this.longitude);
         this.getFullAddress(this.url).subscribe((res) => {
-          console.log(res);
           this.location = res.results[0].formatted_address;
           this.city = res.results[7].formatted_address;
-          console.log(this.location, this.city);
-          if (distance <= 5100 || distance == 0) {
-            this.startLocationValid = true;
-          } else {
-            this.startLocationValid = false;
-          }
-
           if (this.startLocationValid === true) {
             this.start_success_text = 'successfully added';
             this.startCardArr.push({
@@ -166,8 +169,10 @@ export class PaginationPage implements OnInit {
     );
   }
   stopBtnClicked() {
-    this.stopClicked = true;
-    this.startClicked = false;
+    this.startClicked = !this.startClicked;
+    this.stopClicked = !this.stopClicked;
+    this.start_error_text = '';
+    this.start_success_text = '';
     this.currentDay = this.getCurrentDay();
     this.currentMonth = this.getCurrentMonth();
     this.currentYear = this.getCurrentYear();
@@ -188,17 +193,16 @@ export class PaginationPage implements OnInit {
           { latitude: this.latitude, longitude: this.longitude },
           { latitude: this.desiredLatitude, longitude: this.desiredLongitude }
         );
-        console.log(distance);
+        this.getStopDistance(distance);
+        if (this.stopDistance <= 50) {
+          this.stopLocationValid = true;
+        }
         this.url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.latitude},${this.longitude}&key=${this.api_key}`;
 
         this.getFullAddress(this.url).subscribe((res) => {
           this.location = res.results[0].formatted_address;
           this.city = res.results[7].formatted_address;
-          console.log(res);
 
-          if (distance <= 5100 || distance == 0) {
-            this.stopLocationValid = true;
-          }
           if (this.stopLocationValid === true) {
             this.stop_success_text = 'successfully added';
             this.stopCardArr.push({
@@ -219,7 +223,12 @@ export class PaginationPage implements OnInit {
       this.error
     );
   }
-
+  getStartDistance(distance: number) {
+    this.startDistance = distance;
+  }
+  getStopDistance(distance: number) {
+    this.stopDistance = distance;
+  }
   setCurrentTime() {
     const options: Intl.DateTimeFormatOptions = {
       hour: 'numeric',
@@ -231,19 +240,19 @@ export class PaginationPage implements OnInit {
     this.currentDate = new Date().toLocaleDateString();
   }
   choiceCheck() {
-    if (
-      (this.start_error_text || this.start_success_text) &&
-      (this.stop_error_text || this.stop_success_text)
-    ) {
+    console.log(this.startDistance, this.stopDistance);
+    if (this.startDistance <= 50 && this.stopDistance <= 50) {
       this.choiceMade = true;
-      this._location.choiceMade.next(this.choiceMade);
     }
     if (this.choiceMade == true) {
+      this._location.choiceMade.next(this.choiceMade);
       this.router.navigate(['/location-list']);
       this.start_error_text = '';
       this.start_success_text = '';
       this.stop_error_text = '';
       this.stop_success_text = '';
+      this.startClicked = true;
+      this.stopClicked = false;
     }
   }
 

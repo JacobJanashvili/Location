@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LocationService } from '../location.service';
+import { App } from '@capacitor/app';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-location-list',
@@ -7,6 +9,7 @@ import { LocationService } from '../location.service';
   styleUrls: ['./location-list.page.scss'],
 })
 export class LocationListPage implements OnInit {
+  App: any;
   selectedItem: string = '';
   startCard: any = [];
   stopCard: any = [];
@@ -20,7 +23,10 @@ export class LocationListPage implements OnInit {
   menuDayClicked = false;
   menuMonthClicked = false;
   menuYearClicked = false;
-  constructor(private _location: LocationService) {}
+  userName: string = '';
+  constructor(private _location: LocationService) {
+    this.App = App;
+  }
   backButtonEvent() {
     document.addEventListener('backbutton', () => {});
   }
@@ -54,6 +60,10 @@ export class LocationListPage implements OnInit {
       (a: any, b: any) => b.year - a.year
     );
   }
+  onExit() {
+    localStorage.setItem('user_name', this.userName);
+    App.exitApp();
+  }
   ngOnInit() {
     this._location.getStartCard().subscribe((startCard) => {
       this.startCard = startCard;
@@ -64,6 +74,9 @@ export class LocationListPage implements OnInit {
     this._location.getChoice().subscribe((res) => {
       this.choiceMade = res;
       console.log(this.choiceMade);
+    });
+    this._location.userNameObservable.subscribe((user) => {
+      this.userName = user;
     });
   }
 }

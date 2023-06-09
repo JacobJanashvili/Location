@@ -6,13 +6,24 @@ ion-card {
   ion-item {
     --background: #5e56a5;
   }
+  ion-label {
+    font-family: "Noto Sans Georgian", sans-serif;
+    font-size: 20px;
+    color: white;
+  }
+  ion-input {
+    --color: white;
+  }
+  ion-icon {
+    color: white;
+  }
   ion-button {
     --color: white;
-    margin-top: 5%;
+    font-size: 1rem;
+    margin-top: 8%;
   }
 }
 .wrapper {
-  width: 100vw;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -20,41 +31,15 @@ ion-card {
   align-items: center;
   background-color: #5e56a5;
 
+  .auth {
+    margin-top: 5%;
+  }
   .title {
     font-family: "BPG Mrgvlovani", sans-serif;
-    font-size: 47px;
+    font-size: 38px;
     color: white;
   }
-  .form_div {
-    margin: 20px 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-  }
-  .form_title {
-    font-family: "Noto Sans Georgian", sans-serif;
-    font-weight: 500px;
-    font-size: 20px;
-    margin-bottom: 10px;
-    display: inline-block;
-    color: white;
-  }
-  .form_input {
-    width: 100%;
-    padding: 10px 0px 15px 10px;
-    border-radius: 5px;
-    outline: none;
-    border: none;
-    border: 1px solid black;
-  }
-  .form_input::placeholder {
-    font-family: "BPG Nino Mkhedruli";
-    font-size: 20px;
-    color: #a9aeba;
-    font-weight: 700;
-    letter-spacing: 1px;
-  }
+
   .submit {
     padding: 15px 55px;
     border: 2px solid white;

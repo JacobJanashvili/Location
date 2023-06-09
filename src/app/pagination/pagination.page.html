@@ -2,17 +2,18 @@
   <ion-card>
     <div class="wrapper">
       <ion-card-header>
-        <img src="assets/settings.svg" class="settings_icon" alt="" />
+        <img src="assets/icons/exit-outline.svg" (click)="App.exitApp()" class="exit_icon" alt="" />
 
-        <ion-card-title color="dark">საცდელი</ion-card-title>
-        <ion-card-subtitle color="dark">სახელი და გვარი</ion-card-subtitle>
+        <ion-card-title color="light">საცდელი</ion-card-title>
+        <ion-card-subtitle color="light">სახელი და გვარი</ion-card-subtitle>
       </ion-card-header>
       <ion-card-content>
         <div class="button_wrapper">
           <button
             class="start_btn"
             (click)="startBtnClicked()"
-            [disabled]="startClicked==true&&stopClicked==false"
+            [disabled]="startClicked==false"
+            [class.disabled]="!startClicked"
           >
             Start
           </button>
@@ -29,7 +30,8 @@
           <button
             class="stop_btn"
             (click)="stopBtnClicked()"
-            [disabled]="startClicked==false || location==''"
+            [disabled]="stopClicked==false"
+            [class.disabled]="!stopClicked"
           >
             Stop
           </button>
